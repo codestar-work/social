@@ -1,4 +1,3 @@
-// npm install express ejs body-parser cookie-parser
 var express = require('express')
 var ejs     = require('ejs')
 var body    = require('body-parser')
