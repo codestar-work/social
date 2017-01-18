@@ -5,8 +5,8 @@ var cookie  = require('cookie-parser')
 var mysql   = require('mysql')
 var database = {
   host: '127.0.0.1',
-  user: 'root',
-  password: 'p@ssword',
+  user: 'dekidol',
+  password: 'dekidol7',
   database: 'dekidol'
 }
 var pool    = mysql.createPool(database)

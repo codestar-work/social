@@ -1,6 +1,8 @@
 -- https://github.com/codestar-work/social
 
 create database dekidol default charset='utf8';
+create user dekidol@'%' identified by 'dekidol7';
+grant all on dekidol.* to dekidol@'%';
 use dekidol;
 create table member (
   id   serial,
