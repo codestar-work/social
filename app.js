@@ -29,14 +29,19 @@ app.use( showError )
 function showIndex(req, res)     { res.render('index.html') }
 function showLogInPage(req, res) { res.render('login.html') }
 function checkLogIn(req, res) {
-    if (req.body.email == 'mark@fb.com' && req.body.password == 'mark123') {
-        var card = generateCard()
-        valid[card] = req.body.email
-        res.header('Set-Cookie', 'card=' + card)
-        res.redirect('/profile')
-    } else {
-        res.redirect('/login')
-    }
+    pool.query('select * from member where name=? and ' +
+        'password=sha2(?, 512)', 
+        [req.body.name, req.body.password],
+        (error, data) => {
+            if (data.length == 0) {
+                res.redirect('/login')
+            } else {
+                var card = generateCard()
+                valid[card] = data[0]
+                res.header('Set-Cookie', 'card=' + card)
+                res.redirect('/profile')
+            }
+        })
 }
 function showError(req, res) {
     res.render('error.html')
