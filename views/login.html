@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>iCoffee</title>
-		<link rel='stylesheet'
-			href='/css/bootstrap.min.css'>
-	</head>
-	<body>
-		<div class='container'>
-			<h1>Log In</h1>
-            <form method='post'>
-                <input name='email'
-                    class='form-control'
-                    placeholder='Email'
-                    autofocus>
-                <input name='password'
-                    type='password'
-                    class='form-control'
-                    placeholder='Password'>
-                <button
-                    class='btn btn-primary'
-                    type='submit'
-                    >Log In</button>
-            </form>
-            <style>
-                input {
-                    margin-bottom: 6px;
-                }
-            </style>
-		</div>
-	</body>
-</html>
+<% include header.html %>
+
+<div class='container'>
+    <h1>Log In</h1>
+    <form method='post'>
+        <input name='email'
+            class='form-control'
+            placeholder='Email'
+            autofocus>
+        <input name='password'
+            type='password'
+            class='form-control'
+            placeholder='Password'>
+        <button
+            class='btn btn-primary'
+            type='submit'
+            >Log In</button>
+    </form>
+    <style>
+        input {
+            margin-bottom: 6px;
+        }
+    </style>
+</div>
+
+<% include footer.html %>
+

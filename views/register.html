@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>DekIdol</title>
-		<link rel='stylesheet' href='https://icode.run/bootstrap.css'>
-		<style>
-			input { margin-bottom: 6px; }
-		</style>
-	</head>
-	<body>
-		<div class='container'>
-			<form method='post'>
-				<h1>Register</h1>
-				<input class='form-control' name='name'
-					autofocus placeholder='User Name'>
-				<input class='form-control' name='password'
-					type='password' placeholder='Password'>
-				<input class='form-control' name='full_name'
-					placeholder='Full Name'>
-				<button class='btn btn-primary'
-					type='submit'>Register</button>
-			</form>
-		</div>
-	</body>
-</html>
+<% include header.html %>
+
+<div class='container'>
+	<form method='post'>
+		<h1>Register</h1>
+		<input class='form-control' name='name'
+			autofocus placeholder='User Name'>
+		<input class='form-control' name='password'
+			type='password' placeholder='Password'>
+		<input class='form-control' name='full_name'
+			placeholder='Full Name'>
+		<button class='btn btn-primary'
+			type='submit'>Register</button>
+	</form>
+</div>
+
+<% include footer.html %>
