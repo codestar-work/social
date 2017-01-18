@@ -1,2 +1,1 @@
-# social
-Simple Social Media
+## DekIdol
