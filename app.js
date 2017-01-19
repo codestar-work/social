@@ -1,8 +1,11 @@
+var fs      = require('fs')
 var express = require('express')
 var ejs     = require('ejs')
 var body    = require('body-parser')
 var cookie  = require('cookie-parser')
 var mysql   = require('mysql')
+var multer  = require('multer')
+var upload  = multer({dest:'uploads/'})
 var database = {
   host: '127.0.0.1',
   user: 'dekidol',
@@ -20,11 +23,12 @@ app.get('/', showIndex)
 app.get('/login', showLogInPage)
 app.post('/login', checkLogIn)
 app.get('/profile', showProfilePage)
-app.post('/profile', saveProfile)
+app.post('/profile', upload.single('photo'), saveProfile)
 app.get('/logout', logoutUser)
 app.get('/register', showRegisterPage)
 app.post('/register', saveNewUser)
 app.use( express.static('public') )
+app.use( express.static('uploads') )
 app.get('/:user', showUserProfile)
 app.use( showError )
 function showIndex(req, res)     { res.render('index.html') }
@@ -89,6 +93,13 @@ function saveProfile(req, res) {
         user.full_name = req.body.full_name
         user.info = req.body.info
         valid[req.cookies.card] = user
+
+        if (req.file) {
+            fs.rename(req.file.path, req.file.path + '.jpg', e => {} )
+            pool.query('update member set photo=? where id=?',
+                [req.file.filename + '.jpg', user.id])
+        }
+
         var sql = `update member 
         set full_name = ?, info = ? 
         where id = ? 
@@ -98,6 +109,7 @@ function saveProfile(req, res) {
             (error, data) => {
                 res.redirect('/profile')
             })
+
     } else {
         res.redirect('/login')
     }
