@@ -13,7 +13,7 @@ var pool    = mysql.createPool(database)
 var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(1080)
+app.listen(80)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
@@ -57,7 +57,7 @@ function generateCard() {
 
 function showProfilePage(req, res) {
     if (valid[req.cookies.card]) {
-        res.render('profile.html')
+        res.render('profile.html', {user: valid[req.cookies.card]})
     } else {
         res.redirect('/login')
     }
