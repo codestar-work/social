@@ -13,7 +13,7 @@ var pool    = mysql.createPool(database)
 var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(1080)
+app.listen(80)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
@@ -24,8 +24,8 @@ app.post('/profile', saveProfile)
 app.get('/logout', logoutUser)
 app.get('/register', showRegisterPage)
 app.post('/register', saveNewUser)
-
 app.use( express.static('public') )
+app.get('/:user', showUserProfile)
 app.use( showError )
 function showIndex(req, res)     { res.render('index.html') }
 function showLogInPage(req, res) { res.render('login.html') }
@@ -103,7 +103,18 @@ function saveProfile(req, res) {
     }
 }
 
+function showUserProfile(req, res, next) {
+  pool.query('select * from member where name=?', [req.params.user],
+    (error, data) => {
+      if (data.length == 0) {
+        next()
+      } else {
+        res.render('user.html', {user: data[0]})
+      }
+    }
+  )
 
+}
 
 
 
