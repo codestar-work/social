@@ -16,7 +16,7 @@ var pool    = mysql.createPool(database)
 var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(1080)
+app.listen(80)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
@@ -95,6 +95,7 @@ function saveProfile(req, res) {
         valid[req.cookies.card] = user
 
         if (req.file) {
+            user.photo = req.file.filename + '.jpg'
             fs.rename(req.file.path, req.file.path + '.jpg', e => {} )
             pool.query('update member set photo=? where id=?',
                 [req.file.filename + '.jpg', user.id])
