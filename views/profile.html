@@ -6,6 +6,23 @@
 		<a href='/' class='btn btn-outline-primary'>Home</a>
 		<a href='/logout' class='btn btn-outline-primary'>Log Out</a>
 	</div>
+	<br><br>
+	<h4>Your Information</h4>
+	<form method='post'>
+		<input name='full_name'
+			class='form-control'
+			autofocus
+			placeholder="Full Name"
+			value='<%= user.full_name %>'>
+		<textarea
+			name='info'
+			class='form-control'
+			placeholder='Your Brief Information'
+			rows='5'
+		><%= user.info %></textarea>
+		<button type='submit'
+			class='btn btn-primary'>Save</button>
+	</form>
 </div>
 
 <% include footer.html %>

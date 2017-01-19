@@ -13,13 +13,14 @@ var pool    = mysql.createPool(database)
 var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(80)
+app.listen(1080)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
 app.get('/login', showLogInPage)
 app.post('/login', checkLogIn)
 app.get('/profile', showProfilePage)
+app.post('/profile', saveProfile)
 app.get('/logout', logoutUser)
 app.get('/register', showRegisterPage)
 app.post('/register', saveNewUser)
@@ -82,7 +83,25 @@ function saveNewUser(req, res) {
 	)
 }
 
-
+function saveProfile(req, res) {
+    if (valid[req.cookies.card]) {
+        var user = valid[req.cookies.card]
+        user.full_name = req.body.full_name
+        user.info = req.body.info
+        valid[req.cookies.card] = user
+        var sql = `update member 
+        set full_name = ?, info = ? 
+        where id = ? 
+        `
+        pool.query(sql, 
+            [user.full_name, user.info, user.id],
+            (error, data) => {
+                res.redirect('/profile')
+            })
+    } else {
+        res.redirect('/login')
+    }
+}
 
 
 
