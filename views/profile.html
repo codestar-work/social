@@ -1,5 +1,7 @@
 <% include header.html %>
-
+<style>
+	.light { color: #eee; }
+</style>
 <div class='container'>
 	<h3>Hello <%= user.full_name %></h3>
 	<div class='btn-group'>
@@ -37,6 +39,14 @@
 					placeholder='Type your message here.'></textarea>
 				<button class='btn btn-primary'>Send</button>
 			</form>
+			<br>
+			<% for (var m of message) { %>
+				<div>
+					<%= m.text %>
+					<br>
+					<span class='light'><%= m.time %></span>
+				</div>
+			<% } %>
 		</div>
 	</div>
 </div>

@@ -20,16 +20,20 @@ io.on('connection', client => {
         }
     }
     client.card = card
-    console.log(valid[client.card].name + ' just logged in')
+    // console.log(valid[client.card].name + ' just logged in')
 
     client.on('message', message => {
         var user = valid[client.card]
-        console.log(user.name + ' just sent ' + message)
+        // console.log(user.name + ' just sent ' + message)
+        pool.query(`
+            insert into message(member, text)
+            values(?, ?)
+        `, [user.id, message])
     })
 
     client.on('disconnect', () => {
         var user = valid[client.card]
-        console.log(user.name + ' just logged out')
+        // console.log(user.name + ' just logged out')
     })
 })
 
@@ -85,8 +89,15 @@ function generateCard() {
 }
 
 function showProfilePage(req, res) {
-    if (valid[req.cookies.card]) {
-        res.render('profile.html', {user: valid[req.cookies.card]})
+    var user = valid[req.cookies.card]
+    if (user) {
+        pool.query('select * from message where member=?',
+            [user.id],
+            (error, data) => {
+                res.render('profile.html', {user: user,
+                    message: data})
+            }
+        )
     } else {
         res.redirect('/login')
     }
@@ -146,7 +157,11 @@ function showUserProfile(req, res, next) {
       if (data.length == 0) {
         next()
       } else {
-        res.render('user.html', {user: data[0]})
+          pool.query('select * from message where member=?',
+          [data[0].id],
+          (error, message) => {
+            res.render('user.html', {user: data[0], message: message})
+          })
       }
     }
   )

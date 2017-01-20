@@ -1,10 +1,27 @@
 <%include header.html%>
-
+<style>
+	.light { color: #eee; }
+</style>
 <div class='container'>
 
-  <img src='<%= user.photo %>'>
-  <h3>Profile of <%= user.full_name %></h3>
-  <p><%= user.info %></p>
+  <div class='row'>
+    <div class='col-xs-12 col-sm-4'>
+      <img src='<%= user.photo %>'>
+      <h3>Profile of <%= user.full_name %></h3>
+      <p><%= user.info %></p>
+    </div>
+
+    <div class='col-xs-12 col-sm-8'>
+
+			<% for (var m of message) { %>
+        <div>
+          <%= m.text %>
+          <br>
+          <span class='light'><%= m.time %></span>
+        </div>
+			<% } %>
+
+    </div>
 
 
 </div>
