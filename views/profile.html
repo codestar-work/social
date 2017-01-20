@@ -54,9 +54,18 @@
 <script src='/socket.io/socket.io.js'></script>
 <script>
 	var client = io('/')
+	client.on('message', message => {
+		alert(message)
+	})
 	function send() {
 		var message = $('#message').val()
+		$('#message').val('')
 		client.send(message)
+		if (message[0] == '@') {
+
+		} else {
+			location.reload()
+		}
 	}
 </script>
 
