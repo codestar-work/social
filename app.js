@@ -9,7 +9,7 @@ var upload  = multer({dest:'uploads/'})
 var app     = express()
 var valid   = [ ]
 var io      = require('socket.io')()
-io.listen( app.listen(1080) )
+io.listen( app.listen(80) )
 io.on('connection', client => {
     var cookie = client.handshake.headers.cookie.split(';')
     var card = ''
@@ -23,12 +23,25 @@ io.on('connection', client => {
     // console.log(valid[client.card].name + ' just logged in')
 
     client.on('message', message => {
+        message = message.trim()
         var user = valid[client.card]
-        // console.log(user.name + ' just sent ' + message)
-        pool.query(`
-            insert into message(member, text)
-            values(?, ?)
-        `, [user.id, message])
+        if (message[0] == '@') {
+            var p = message.indexOf(' ')
+            var name = message.substring(1, p)
+            var clients = io.of('/').connected
+            for (var c in clients) {
+                var u = valid[clients[c].card]
+                if (u.name == name) {
+                    clients[c].send(message.substring(p))
+                }
+            }
+        } else {
+            // console.log(user.name + ' just sent ' + message)
+            pool.query(`
+                insert into message(member, text)
+                values(?, ?)
+            `, [user.id, message])
+        }
     })
 
     client.on('disconnect', () => {
