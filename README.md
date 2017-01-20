@@ -1,7 +1,7 @@
 ## DekIdol
 A simple social network.
 
-!(https://raw.githubusercontent.com/codestar-work/social/master/photo.png)
+![](https://raw.githubusercontent.com/codestar-work/social/master/photo.png)
 
 
 ### Installation
