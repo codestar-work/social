@@ -7,12 +7,29 @@ var mysql   = require('mysql')
 var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
 var app     = express()
+var valid   = [ ]
 var io      = require('socket.io')()
 io.listen( app.listen(1080) )
 io.on('connection', client => {
-    
+    var cookie = client.handshake.headers.cookie.split(';')
+    var card = ''
+    for (var c of cookie) {
+        c = c.trim()
+        if (c.indexOf('card=') == 0) {
+            card = c.substring(5)
+        }
+    }
+    client.card = card
+    console.log(valid[client.card].name + ' just logged in')
+
+    client.on('message', message => {
+        var user = valid[client.card]
+        console.log(user.name + ' just sent ' + message)
+    })
+
     client.on('disconnect', () => {
-        console.log('someone logged out')
+        var user = valid[client.card]
+        console.log(user.name + ' just logged out')
     })
 })
 
@@ -23,7 +40,6 @@ var database = {
   database: 'dekidol'
 }
 var pool    = mysql.createPool(database)
-var valid   = [ ]
 app.engine('html', ejs.renderFile)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )

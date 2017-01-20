@@ -1,13 +1,5 @@
 <% include header.html %>
 
-<script src='/socket.io/socket.io.js'></script>
-<script>
-	io('/')
-	function send() {
-
-	}
-</script>
-
 <div class='container'>
 	<h3>Hello <%= user.full_name %></h3>
 	<div class='btn-group'>
@@ -41,12 +33,21 @@
 		</div>
 		<div class='col-xs-12 col-sm-8'>
 			<form action='javascript:send()'>
-				<textarea class='form-control' 
+				<textarea class='form-control' id='message'
 					placeholder='Type your message here.'></textarea>
 				<button class='btn btn-primary'>Send</button>
 			</form>
 		</div>
 	</div>
 </div>
+
+<script src='/socket.io/socket.io.js'></script>
+<script>
+	var client = io('/')
+	function send() {
+		var message = $('#message').val()
+		client.send(message)
+	}
+</script>
 
 <% include footer.html %>
