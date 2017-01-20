@@ -6,6 +6,37 @@ var cookie  = require('cookie-parser')
 var mysql   = require('mysql')
 var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
+var app     = express()
+var valid   = [ ]
+var io      = require('socket.io')()
+io.listen( app.listen(1080) )
+io.on('connection', client => {
+    var cookie = client.handshake.headers.cookie.split(';')
+    var card = ''
+    for (var c of cookie) {
+        c = c.trim()
+        if (c.indexOf('card=') == 0) {
+            card = c.substring(5)
+        }
+    }
+    client.card = card
+    // console.log(valid[client.card].name + ' just logged in')
+
+    client.on('message', message => {
+        var user = valid[client.card]
+        // console.log(user.name + ' just sent ' + message)
+        pool.query(`
+            insert into message(member, text)
+            values(?, ?)
+        `, [user.id, message])
+    })
+
+    client.on('disconnect', () => {
+        var user = valid[client.card]
+        // console.log(user.name + ' just logged out')
+    })
+})
+
 var database = {
   host: '127.0.0.1',
   user: 'dekidol',
@@ -13,10 +44,7 @@ var database = {
   database: 'dekidol'
 }
 var pool    = mysql.createPool(database)
-var app     = express()
-var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(80)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
@@ -61,8 +89,15 @@ function generateCard() {
 }
 
 function showProfilePage(req, res) {
-    if (valid[req.cookies.card]) {
-        res.render('profile.html', {user: valid[req.cookies.card]})
+    var user = valid[req.cookies.card]
+    if (user) {
+        pool.query('select * from message where member=?',
+            [user.id],
+            (error, data) => {
+                res.render('profile.html', {user: user,
+                    message: data})
+            }
+        )
     } else {
         res.redirect('/login')
     }
@@ -122,13 +157,16 @@ function showUserProfile(req, res, next) {
       if (data.length == 0) {
         next()
       } else {
-        res.render('user.html', {user: data[0]})
+          pool.query('select * from message where member=?',
+          [data[0].id],
+          (error, message) => {
+            res.render('user.html', {user: data[0], message: message})
+          })
       }
     }
   )
 
 }
-
 
 
 
