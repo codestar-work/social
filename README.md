@@ -5,6 +5,6 @@ A simple social network.
 ```
 git clone https://github.com/codestar-work/social
 cd social
-npm install express ejs body-parser cookie-parser mysql multer
+npm install express ejs body-parser cookie-parser mysql multer socket.io
 sudo node app
 ```

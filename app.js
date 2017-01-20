@@ -6,6 +6,16 @@ var cookie  = require('cookie-parser')
 var mysql   = require('mysql')
 var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
+var app     = express()
+var io      = require('socket.io')()
+io.listen( app.listen(1080) )
+io.on('connection', client => {
+    
+    client.on('disconnect', () => {
+        console.log('someone logged out')
+    })
+})
+
 var database = {
   host: '127.0.0.1',
   user: 'dekidol',
@@ -13,10 +23,8 @@ var database = {
   database: 'dekidol'
 }
 var pool    = mysql.createPool(database)
-var app     = express()
 var valid   = [ ]
 app.engine('html', ejs.renderFile)
-app.listen(80)
 app.use( body.urlencoded({extended:false}) )
 app.use( cookie() )
 app.get('/', showIndex)
@@ -128,7 +136,6 @@ function showUserProfile(req, res, next) {
   )
 
 }
-
 
 
 
