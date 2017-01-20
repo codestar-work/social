@@ -9,7 +9,7 @@ var upload  = multer({dest:'uploads/'})
 var app     = express()
 var valid   = [ ]
 var io      = require('socket.io')()
-io.listen( app.listen(1080) )
+io.listen( app.listen(80) )
 io.on('connection', client => {
     var cookie = client.handshake.headers.cookie.split(';')
     var card = ''
