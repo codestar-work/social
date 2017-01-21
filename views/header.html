@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>DekIdol</title>
-		<link rel='stylesheet' href='/css/bootstrap.min.css'>
-		<script src='/jquery.js'></script>
-		<style>
-			input,textarea,img { margin-bottom: 6px; }
-			img { width: 100%; border-radius: 6px; }
-		</style>
-	</head>
-	<body>
+<head>
+	<title>DekIdol</title>
+	<link rel='stylesheet' href='/css/bootstrap.min.css'>
+	<script src='/jquery.js'></script>
+	<style>
+		input,textarea,img,button { 
+			margin-bottom: 6px; 
+		}
+		img { 
+			width: 100%; border-radius: 6px; 
+		}
+		#menu {
+			background: linear-gradient(#555, #333);
+			height: 60px;
+			margin-bottom: 6px;
+			padding-top: 12px;
+		}
+		#menu h2 {
+			display: inline-block;
+		}
+		#menu a {
+			color: white;
+			text-decoration: none;
+		}
+		.right-menu {
+			float: right;
+			padding-top:4px;
+		}
+	</style>
+</head>
+<body>
+<div id='menu'>
+	<div class='container'>
+		<h2><a href='/'>DekIdol</a></h2>
+	
+		<span class='right-menu'>
+		<% if (typeof user == "undefined") { %>
+			<a href='/login'>Log In</a>&nbsp;
+		<% } else { %>
+			<a href='/'>Home</a>&nbsp;
+			<a href='/profile'>Profile</a>&nbsp;
+			<a href='/logout'>Log Out</a>&nbsp;
+		<% } %>
+		</span>
+	</div>
+</div>

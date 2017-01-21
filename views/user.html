@@ -1,30 +1,40 @@
 <%include header.html%>
 <style>
-	.light { color: #eee; }
+	.light { 
+		color: #ddd; 
+		font-size: .8rem;	
+	}
+	.message { 
+		background: white;
+		border-radius: 6px;
+		margin-bottom: 6px;
+		padding: 10px;
+		border: 1px solid #e2e2e2;
+		border-top: 1px solid #e8e8e8;
+	}
+	body {
+		background: #eee;
+	}
 </style>
 <div class='container'>
 
-  <div class='row'>
-    <div class='col-xs-12 col-sm-4'>
-      <img src='<%= user.photo %>'>
-      <h3>Profile of <%= user.full_name %></h3>
-      <p><%= user.info %></p>
-    </div>
+	<div class='row'>
+		<div class='col-xs-12 col-sm-3'>
+			<img src='<%= view.photo %>'>
+			<h3>@<%= view.name %></h3>
+			<h4><%= view.full_name %></h4>
+			<p><%= view.info %></p>
+		</div>
 
-    <div class='col-xs-12 col-sm-8'>
-
+		<div class='col-xs-12 col-sm-9'>
 			<% for (var m of message) { %>
-        <div>
-          <%= m.text %>
-          <br>
-          <span class='light'><%= m.time %></span>
-        </div>
+			<div class='message'>
+				<%= m.text %>
+				<br>
+				<span class='light'><%= m.time %></span>
+			</div>
 			<% } %>
-
-    </div>
-
-
+		</div>
+	</div>
 </div>
-
-
 <%include footer.html%>
