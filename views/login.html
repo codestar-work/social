@@ -1,26 +1,30 @@
 <% include header.html %>
-
+<style>
+	form {
+		max-width: 300px;
+		border: 2px solid #ccc;
+		padding: 0 6px;
+		border-radius: 6px;
+		margin: 0 auto;
+	}
+</style>
 <div class='container'>
-    <h1>Log In</h1>
-    <form method='post'>
-        <input name='name'
-            class='form-control'
-            placeholder='User Name'
-            autofocus>
-        <input name='password'
-            type='password'
-            class='form-control'
-            placeholder='Password'>
-        <button
-            class='btn btn-primary'
-            type='submit'
-            >Log In</button>
-    </form>
-    <style>
-        input {
-            margin-bottom: 6px;
-        }
-    </style>
+	<form method='post'>
+		<h1>Log In</h1>
+		<input name='name'
+			class='form-control'
+			placeholder='User Name'
+			autofocus>
+		<input name='password'
+			type='password'
+			class='form-control'
+			placeholder='Password'>
+		<button
+			class='btn btn-primary'
+			type='submit'
+			>Log In</button>
+		<a href='/register'>Register</a>
+	</form>
 </div>
 
 <% include footer.html %>
